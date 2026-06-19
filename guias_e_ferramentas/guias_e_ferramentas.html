@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guias e Ferramentas</title>
+  <style>
+    /* ══════════════════════════════════
+       DASHBOARD
+    ══════════════════════════════════ */
+    .doc-dashboard {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 22px;
+      max-width: 1400px;
+      margin: 34px auto;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #06264a;
+    }
+
+    .doc-panel,
+    .doc-add-card {
+      border: 1px solid #ccd6e2;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .doc-panel h2 {
+      margin: 0;
+      padding: 18px 22px;
+      border-bottom: 1px solid #ccd6e2;
+      font-size: 22px;
+      color: #002b55;
+    }
+
+    .doc-panel ul { margin: 0; padding: 18px 26px; }
+
+    .doc-empty {
+      padding: 20px 22px;
+      margin: 0;
+      color: #58677a;
+      font-style: italic;
+    }
+
+    .doc-add-card {
+      min-height: 300px;
+      cursor: pointer;
+      text-align: center;
+      padding: 44px 28px;
+      color: #002b55;
+      border: none;
+      transition: background 0.2s;
+    }
+    .doc-add-card:hover { background: #f5f8fc; }
+    .doc-add-card span  { display: block; font-size: 96px; line-height: 1; font-weight: 700; }
+    .doc-add-card strong{ display: block; font-size: 24px; margin: 12px 0 16px; }
+
+    .doc-categories-panel { grid-column: 1 / -1; }
+
+    .doc-category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .doc-category-card {
+      border: 1px solid #ccd6e2;
+      border-radius: 6px;
+      padding: 22px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .doc-category-card:hover { background: #f0f4f8; border-color: #07345f; }
+    .doc-category-card span  { display: block; font-size: 34px; margin-bottom: 10px; }
+    .doc-category-card strong,
+    .doc-category-card small { display: block; }
+
+    /* ══════════════════════════════════
+       LISTA DE ITENS
+    ══════════════════════════════════ */
+    .doc-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      border-bottom: 1px solid #e3e8ef;
+      transition: background 0.15s;
+    }
+    .doc-list-item:last-child { border-bottom: none; }
+    .doc-list-item:hover      { background: #f5f7fa; }
+
+    .doc-list-icon {
+      width: 46px; height: 48px;
+      border-radius: 5px;
+      background: #07345f;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+
+    .doc-list-info           { flex: 1; min-width: 0; }
+    .doc-list-info strong    { display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .doc-list-info small     { display: block; font-size: 12px; color: #58677a; margin-top: 2px; }
+
+    .doc-list-actions        { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    .doc-action-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: #07345f;
+      padding: 4px 6px; border-radius: 4px;
+      transition: background 0.15s; line-height: 1;
+    }
+    .doc-action-btn:hover   { background: #e3e8ef; }
+    .doc-action-btn.delete  { color: #c62828; }
+    .doc-action-btn.restore { color: #2e7d32; }
+
+    .doc-expiry-tag        { font-size: 11px; color: #999; white-space: nowrap; }
+    .doc-expiry-tag.urgent { color: #c62828; font-weight: 700; }
+
+    /* ══════════════════════════════════
+       MODAIS GERAIS
+    ══════════════════════════════════ */
+    .doc-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(0,0,0,0.55);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .doc-modal[hidden] { display: none; }
+
+    .doc-modal-box {
+      width: 100%;
+      max-width: 560px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+
+    .doc-modal-large {
+      max-width: 820px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .doc-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 22px;
+      border-bottom: 1px solid #ccd6e2;
+      flex-shrink: 0;
+    }
+    .doc-modal-header h2     { margin: 0; font-size: 20px; }
+    .doc-modal-header button { border: 0; background: transparent; font-size: 28px; cursor: pointer; color: #555; line-height: 1; }
+
+    .doc-modal-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 22px;
+      background: #f5f7fa;
+      border-bottom: 1px solid #ccd6e2;
+      font-size: 13px;
+      color: #58677a;
+      flex-shrink: 0;
+    }
+
+    .doc-modal-body { overflow-y: auto; flex: 1; }
+
+    .doc-table-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 20px;
+      background: #eef1f5;
+      border-bottom: 1px solid #ccd6e2;
+      font-size: 12px;
+      font-weight: 700;
+      color: #444;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .doc-table-header .col-icon    { width: 46px; flex-shrink: 0; }
+    .doc-table-header .col-name    { flex: 1; }
+    .doc-table-header .col-cat     { width: 100px; flex-shrink: 0; }
+    .doc-table-header .col-size    { width: 70px; flex-shrink: 0; text-align: right; }
+    .doc-table-header .col-actions { width: 80px; flex-shrink: 0; }
+
+    /* Formulário */
+    #docUploadForm               { padding: 22px; }
+    #docUploadForm label         { display: block; margin-bottom: 18px; font-weight: 700; }
+    #docUploadForm label span    { color: #c62828; }
+    #docUploadForm input,
+    #docUploadForm textarea,
+    #docUploadForm select {
+      display: block; width: 100%; margin-top: 8px;
+      padding: 11px; border: 1px solid #cfd7e3;
+      border-radius: 5px; font: inherit; box-sizing: border-box;
+    }
+    #docUploadForm textarea { min-height: 100px; resize: vertical; }
+    #docUploadForm small    { display: block; margin-top: 7px; color: #657286; font-weight: 400; }
+
+    .doc-modal-actions {
+      display: flex; justify-content: flex-end; gap: 10px;
+      border-top: 1px solid #ccd6e2; padding-top: 18px;
+    }
+
+    .doc-btn         { border: 1px solid #b8c2d0; background: #fff; color: #0f1f33; padding: 10px 18px; border-radius: 5px; font-weight: 700; cursor: pointer; font-size: 13px; }
+    .doc-btn.primary { background: #06264a; color: #fff; border-color: #06264a; }
+    .doc-btn.primary:hover { background: #07345f; }
+
+    /* ══════════════════════════════════
+       DETALHES DO MODAL (MEGA MODAL)
+    ══════════════════════════════════ */
+    .detail-box {
+      width: 90% !important;
+      max-width: 1200px !important; 
+      height: 80vh;                
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccd6e2;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+    }
+
+    .detail-header {
+      background-color: #f8fafc;
+      padding: 20px 24px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #06264a;
+      border-bottom: 1px solid #ccd6e2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .detail-close-btn {
+      background: transparent;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      color: #64748b;
+      line-height: 1;
+    }
+    .detail-close-btn:hover { color: #0f172a; }
+
+    .detail-body {
+      padding: 30px;
+      color: #333;
+      line-height: 1.6;
+      flex: 1;
+      overflow-y: auto; 
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .detail-meta-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      background: #f1f5f9;
+      padding: 16px 20px;
+      border-radius: 6px;
+    }
+    .detail-meta-group p { margin: 0; font-size: 15px; color: #1e293b; }
+
+    .detail-desc-box {
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 15px;
+      color: #334155;
+      flex: 1;              
+      overflow-y: auto;      
+      word-break: break-word; 
+      white-space: pre-wrap;  
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .detail-footer {
+      background-color: #f8fafc;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #ccd6e2;
+      flex-shrink: 0;
+    }
+
+    .detail-btn-open {
+      display: inline-block;
+      padding: 14px 48px;
+      background-color: #06264a;
+      color: white;
+      border: none;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+    .detail-btn-open:hover { background-color: #07345f; }
+
+    /* ══════════════════════════════════
+       VIEWER — ECRÃ COMPLETO
+    ══════════════════════════════════ */
+    .dv-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: #000;
+      display: flex;
+      padding: 0;
+      margin: 0;
+    }
+    .dv-modal[hidden] { display: none; }
+
+    .dv-box {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #2b2b2b;
+      overflow: hidden;
+    }
+
+    .dv-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: #1a1a1a;
+      color: #fff;
+      flex-shrink: 0;
+      height: 48px;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+
+    .dv-header h2 {
+      margin: 0;
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      color: #eee;
+      font-weight: 400;
+    }
+
+    .dv-header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    .dv-btn-download {
+      background: #06264a;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 14px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background 0.15s;
+    }
+    .dv-btn-download:hover { background: #0a3a6e; }
+
+    .dv-btn-close {
+      background: transparent;
+      border: none;
+      color: #ccc;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 6px;
+      transition: color 0.15s;
+    }
+    .dv-btn-close:hover { color: #fff; }
+
+    .dv-body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #404040;
+      position: relative;
+    }
+
+    .dv-body iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .dv-body img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .dv-body pre {
+      position: absolute;
+      inset: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      padding: 40px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #f0f0f0;
+      background: #1e1e1e;
+      margin: 0;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    .dv-no-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 60px 24px;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #aaa;
+      width: 100%;
+    }
+    .dv-no-preview .dv-no-icon { font-size: 72px; }
+    .dv-no-preview strong      { font-size: 20px; color: #eee; }
+    .dv-no-preview p           { margin: 0; font-size: 14px; color: #888; }
+    .dv-no-preview .dv-np-btn {
+      background: #06264a; color: #fff; border: none;
+      border-radius: 6px; padding: 12px 28px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif; margin-top: 8px;
+      transition: background 0.15s;
+    }
+    .dv-no-preview .dv-np-btn:hover { background: #0a3a6e; }
+
+    /* ══════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════ */
+    @media (max-width: 900px) {
+      .doc-dashboard      { grid-template-columns: 1fr; }
+      .doc-category-grid  { grid-template-columns: 1fr; }
+      .detail-meta-group  { grid-template-columns: 1fr; gap: 8px; }
+    }
+    @media (max-width: 600px) {
+      .dv-header       { padding: 8px 10px; height: 44px; }
+      .dv-header h2    { font-size: 13px; }
+      .dv-btn-download { padding: 5px 10px; font-size: 11px; }
+      .detail-box      { height: 95vh; width: 95% !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="doc-dashboard">
+  <section class="doc-panel doc-month-panel">
+    <h2>Guias e ferramentas adicionados este mês</h2>
+    <div id="monthDocuments">
+      <p class="doc-empty">Ainda não foram adicionados guias ou ferramentas este mês.</p>
+    </div>
+  </section>
+
+  <button type="button" class="doc-add-card" id="openDocModal">
+    <span>+</span>
+    <strong>Adicionar guia ou ferramenta</strong>
+    <p>Clique para adicionar um novo guia ou ferramenta.</p>
+  </button>
+
+  <section class="doc-panel">
+    <h2>Guias e ferramentas eliminados</h2>
+    <div id="deletedDocuments">
+      <p class="doc-empty">Nenhum guia ou ferramenta eliminado.</p>
+    </div>
+  </section>
+
+  <section class="doc-panel">
+    <h2>Guias e ferramentas recentes</h2>
+    <div id="recentDocuments">
+      <p class="doc-empty">Ainda não há itens carregados.</p>
+    </div>
+  </section>
+
+  <section class="doc-panel doc-categories-panel">
+    <h2>Categorias</h2>
+    <div class="doc-category-grid">
+      <div class="doc-category-card" data-category="guias">
+        <span>📘</span>
+        <strong>Guias</strong>
+        <small><b id="countGuias">0</b> documentos</small>
+      </div>
+      <div class="doc-category-card" data-category="ferramentas">
+        <span>🛠️</span>
+        <strong>Ferramentas</strong>
+        <small><b id="countFerramentas">0</b> documentos</small>
+      </div>
+      <div class="doc-category-card" data-category="outros">
+        <span>📦</span>
+        <strong>Outros</strong>
+        <small><b id="countOutros">0</b> documentos</small>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="doc-modal" id="docModal" hidden>
+  <div class="doc-modal-box">
+    <div class="doc-modal-header">
+      <h2>Novo Item</h2>
+      <button type="button" id="closeDocModal">×</button>
+    </div>
+    <form id="docUploadForm">
+      <label>Título <span>*</span>
+        <input type="text" id="docTitle" placeholder="Digite o título do guia ou ferramenta" required>
+      </label>
+      <label>Autor <span>*</span>
+        <input type="text" id="docAuthor" placeholder="Digite o nome do autor" required>
+      </label>
+      <label>Descrição (Máx. 350 caracteres) <span>*</span>
+        <textarea id="docDescription" placeholder="Digite a descrição ou resumo explicativo" maxlength="350" required></textarea>
+      </label>
+      <label>Categoria <span>*</span>
+        <select id="docCategory" required>
+          <option value="guias">Guias</option>
+          <option value="ferramentas">Ferramentas</option>
+          <option value="outros">Outros</option>
+        </select>
+      </label>
+      <label>Ficheiro <span>*</span>
+        <input type="file" id="docFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.txt" required>
+        <small>Formatos aceites: PDF, DOC, DOCX, XLS, XLSX, imagens e TXT</small>
+      </label>
+      <div class="doc-modal-actions">
+        <button type="button" class="doc-btn" id="cancelDocModal">Cancelar</button>
+        <button type="submit" class="doc-btn primary">Guardar Item</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="doc-modal" id="categoryModal" hidden>
+  <div class="doc-modal-box doc-modal-large">
+    <div class="doc-modal-header">
+      <h2 id="categoryModalTitle">Itens</h2>
+      <button type="button" id="closeCategoryModal">×</button>
+    </div>
+    <div class="doc-modal-toolbar">
+      <span id="categoryModalCount">0 itens</span>
+    </div>
+    <div class="doc-modal-body" id="categoryDocumentsList"></div>
+  </div>
+</div>
+
+<div class="doc-modal" id="detailsModal" hidden>
+  <div class="doc-modal-box detail-box">
+    <div class="detail-header">
+      <span>📄 DETALHES DO ITEM</span>
+      <button type="button" id="closeDetailsModal" class="detail-close-btn">×</button>
+    </div>
+    <div class="detail-body">
+      <div class="detail-meta-group">
+        <p>👤 <strong>Autor:</strong> <span id="detAuthor">---</span></p>
+        <p>📅 <strong>Adicionado em:</strong> <span id="detDate">---</span></p>
+      </div>
+      <p>📝 <strong>Descrição:</strong></p>
+      <div class="detail-desc-box" id="detDescription">---</div>
+    </div>
+    <div class="detail-footer">
+      <button type="button" id="detOpenFileInput" class="detail-btn-open">📂 ABRIR O FICHEIRO</button>
+    </div>
+  </div>
+</div>
+
+<div class="dv-modal" id="viewerModal" hidden>
+  <div class="dv-box">
+    <div class="dv-header">
+      <h2 id="viewerModalTitle">Ficheiro</h2>
+      <div class="dv-header-actions">
+        <button type="button" class="dv-btn-download" id="viewerDownloadBtn">⬇ Descarregar</button>
+        <button type="button" class="dv-btn-close" id="closeViewerModal">×</button>
+      </div>
+    </div>
+    <div class="dv-body" id="viewerModalBody"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // Chaves exclusivas para o ecossistema de Guias e Ferramentas
+  const STORAGE_KEY       = "techbase_guias_docs";
+  const FILES_KEY         = "techbase_guias_ficheiros";
+  const DELETED_KEY       = "techbase_guias_deletados";
+  const DELETED_FILES_KEY = "techbase_guias_deletados_ficheiros";
+  const MONTH_KEY         = "techbase_guias_mes";
+  const EXPIRY_DAYS       = 7;
+
+  /* ── Elementos: Modais gerais ── */
+  const modal          = document.getElementById("docModal");
+  const openBtn        = document.getElementById("openDocModal");
+  const closeBtn       = document.getElementById("closeDocModal");
+  const cancelBtn      = document.getElementById("cancelDocModal");
+  const form           = document.getElementById("docUploadForm");
+
+  const categoryModal      = document.getElementById("categoryModal");
+  const closeCategoryBtn   = document.getElementById("closeCategoryModal");
+  const categoryModalTitle = document.getElementById("categoryModalTitle");
+  const categoryModalCount = document.getElementById("categoryModalCount");
+  const categoryDocsList   = document.getElementById("categoryDocumentsList");
+
+  /* ── Elementos: Modal de detalhes ── */
+  const detailsModal       = document.getElementById("detailsModal");
+  const closeDetailsBtn    = document.getElementById("closeDetailsModal");
+  const detAuthor          = document.getElementById("detAuthor");
+  const detDate            = document.getElementById("detDate");
+  const detDescription     = document.getElementById("detDescription");
+  const detOpenFileInput   = document.getElementById("detOpenFileInput");
+  let _selectedDocForView  = null;
+
+  /* ── Elementos: Viewer ── */
+  const viewerModal        = document.getElementById("viewerModal");
+  const closeViewerBtn     = document.getElementById("closeViewerModal");
+  const viewerTitle        = document.getElementById("viewerModalTitle");
+  const viewerBody         = document.getElementById("viewerModalBody");
+  const viewerDownloadBtn  = document.getElementById("viewerDownloadBtn");
+
+  /* ── Elementos: Listas e contadores ── */
+  const recentDocuments   = document.getElementById("recentDocuments");
+  const monthDocuments    = document.getElementById("monthDocuments");
+  const deletedDocuments  = document.getElementById("deletedDocuments");
+
+  const countGuias        = document.getElementById("countGuias");
+  const countFerramentas  = document.getElementById("countFerramentas");
+  const countOutros       = document.getElementById("countOutros");
+
+  let _objectUrl   = null;
+  let _currentDoc  = null;
+
+  /* ── Auxiliares de LocalStorage ── */
+  function getDocs() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  function getFiles() { return JSON.parse(localStorage.getItem(FILES_KEY)) || {}; }
+  function getDeleted() { return JSON.parse(localStorage.getItem(DELETED_KEY)) || []; }
+  function getDeletedFiles() { return JSON.parse(localStorage.getItem(DELETED_FILES_KEY)) || {}; }
+  function save(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+  
+  function esc(str) { 
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); 
+  }
+  
+  function getExt(filename) { return filename.slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2); }
+  function fmtSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024, sizes = ['Bytes', 'KB', 'MB'], i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  }
+  function getCatName(cat) {
+    const names = { guias: "Guias", ferramentas: "Ferramentas", outros: "Outros" };
+    return names[cat] || cat;
+  }
+  function closeAddModal() { modal.hidden = true; form.reset(); }
+
+  /* ── Eventos ── */
+  openBtn.addEventListener("click", () => { modal.hidden = false; });
+  closeBtn.addEventListener("click", closeAddModal);
+  cancelBtn.addEventListener("click", closeAddModal);
+  closeCategoryBtn.addEventListener("click", () => { categoryModal.hidden = true; });
+  closeDetailsBtn.addEventListener("click", () => { detailsModal.hidden = true; });
+
+  detOpenFileInput.addEventListener("click", () => {
+    if (_selectedDocForView) {
+      detailsModal.hidden = true;
+      openDoc(_selectedDocForView);
+    }
+  });
+
+  closeViewerBtn.addEventListener("click", closeViewer);
+  viewerDownloadBtn.addEventListener("click", () => { if (_currentDoc) downloadDoc(_currentDoc); });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !viewerModal.hidden) closeViewer();
+    if (e.key === "Escape" && !detailsModal.hidden) detailsModal.hidden = true;
+  });
+
+  document.querySelectorAll(".doc-category-card").forEach(card => {
+    card.addEventListener("click", () => openCategoryModal(card.dataset.category));
+  });
+
+  categoryModal.addEventListener("click", e => { if (e.target === categoryModal) categoryModal.hidden = true; });
+  detailsModal.addEventListener("click", e => { if (e.target === detailsModal) detailsModal.hidden = true; });
+
+  /* ── Submissão do Formulário ── */
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const title       = document.getElementById("docTitle").value.trim();
+    const author      = document.getElementById("docAuthor").value.trim();
+    const description = document.getElementById("docDescription").value.trim();
+    const category    = document.getElementById("docCategory").value;
+    const fileInput   = document.getElementById("docFile");
+    const file        = fileInput.files[0];
+
+    if (!title || !author || !description || !category || !file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (ev) {
+      const docs  = getDocs();
+      const files = getFiles();
+      const id    = Date.now();
+
+      docs.unshift({
+        id, title, author, description, category,
+        fileName: file.name,
+        type:      getExt(file.name),
+        mimeType: file.type,
+        size:      fmtSize(file.size),
+        date:      new Date().toISOString()
+      });
+
+      files[id] = ev.target.result;
+
+      save(STORAGE_KEY, docs);
+      save(FILES_KEY, files);
+
+      closeAddModal();
+      renderAll();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* ── Renderização das Listas ── */
+  function renderAll() {
+    const docs = getDocs();
+    renderMainList(recentDocuments, docs.slice(0, 3));
+    renderMainList(monthDocuments, docs.slice(0, 5));
+    renderDeletedList();
+    
+    countGuias.textContent        = docs.filter(d => d.category === "guias").length;
+    countFerramentas.textContent  = docs.filter(d => d.category === "ferramentas").length;
+    countOutros.textContent       = docs.filter(d => d.category === "outros").length;
+  }
+
+  function renderMainList(container, docs) {
+    container.innerHTML = "";
+    if (!docs.length) {
+      container.innerHTML = '<p class="doc-empty">Ainda não há itens carregados.</p>';
+      return;
+    }
+    docs.forEach(doc => container.appendChild(buildMainItem(doc)));
+  }
+
+  function buildMainItem(doc) {
+    const item = document.createElement("div");
+    item.className = "doc-list-item";
+    item.style.cursor = "pointer";
+    item.innerHTML =
+      `<span class="doc-list-icon">${esc(doc.type)}</span>
+       <div class="doc-list-info">
+          <strong>${esc(doc.title)}</strong>
+          <small>${getCatName(doc.category)} · ${esc(doc.size)}</small>
+       </div>
+       <div class="doc-list-actions">
+          <button type="button" class="doc-action-btn open-btn"     title="Ver Detalhes">👁</button>
+          <button type="button" class="doc-action-btn download-btn" title="Descarregar">⬇</button>
+          <button type="button" class="doc-action-btn delete"        title="Eliminar">🗑</button>
+       </div>`;
+
+    item.querySelector(".open-btn").addEventListener("click",      e => { e.stopPropagation(); showDetails(doc); });
+    item.querySelector(".download-btn").addEventListener("click", e => { e.stopPropagation(); downloadDoc(doc); });
+    item.querySelector(".delete").addEventListener("click",        e => { e.stopPropagation(); deleteDoc(doc.id); });
+    item.addEventListener("click", () => showDetails(doc));
+    return item;
+  }
+
+  function renderDeletedList() {
+    deletedDocuments.innerHTML = "";
+    const deleted = getDeleted();
+    if (!deleted.length) {
+      deletedDocuments.innerHTML = '<p class="doc-empty">Nenhum item eliminado.</p>';
+      return;
+    }
+    deleted.forEach(doc => deletedDocuments.appendChild(buildDeletedItem(doc)));
+  }
+
+  function buildDeletedItem(doc) {
+    const item = document.createElement("div");
+    item.className = "doc-list-item";
+    const daysLeft    = getDaysLeft(doc.deletedAt);
+    const urgentClass = daysLeft <= 2 ? " urgent" : "";
+    item.innerHTML =
+      `<span class="doc-list-icon" style="background:#9e9e9e">${esc(doc.type)}</span>
+       <div class="doc-list-info">
+          <strong>${esc(doc.title)}</strong>
+          <small>${getCatName(doc.category)} · ${esc(doc.size)}</small>
+       </div>
+       <span class="doc-expiry-tag${urgentClass}">${daysLeft}d</span>
+       <div class="doc-list-actions">
+          <button type="button" class="doc-action-btn restore" title="Restaurar">↩</button>
+       </div>`;
+    item.querySelector(".restore").addEventListener("click", e => { e.stopPropagation(); restoreDoc(doc.id); });
+    return item;
+  }
+
+  /* ── Modal de Categoria ── */
+  function openCategoryModal(category) {
+    const docs = getDocs().filter(d => d.category === category);
+    categoryModalTitle.textContent = getCatName(category);
+    categoryModalCount.textContent = `${docs.length} item(ns)`;
+    categoryDocsList.innerHTML = "";
+
+    const header = document.createElement("div");
+    header.className = "doc-table-header";
+    header.innerHTML =
+      `<span class="col-icon"></span>
+       <span class="col-name">Nome</span>
+       <span class="col-cat">Categoria</span>
+       <span class="col-size">Tamanho</span>
+       <span class="col-actions"></span>`;
+    categoryDocsList.appendChild(header);
+
+    if (!docs.length) {
+      const p = document.createElement("p");
+      p.className = "doc-empty";
+      p.textContent = "Nenhum item nesta categoria.";
+      categoryDocsList.appendChild(p);
+    } else {
+      docs.forEach(doc => categoryDocsList.appendChild(buildModalItem(doc)));
+    }
+    categoryModal.hidden = false;
+  }
+
+  function buildModalItem(doc) {
+    const item = document.createElement("div");
+    item.className = "doc-list-item";
+    item.style.cursor = "pointer";
+    item.innerHTML =
+      `<span class="doc-list-icon">${esc(doc.type)}</span>
+       <div class="doc-list-info" style="flex:1;min-width:0">
+          <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(doc.title)}</strong>
+          <small>${esc(doc.fileName)}</small>
+       </div>
+       <span class="col-cat" style="width:100px;flex-shrink:0;font-size:12px;color:#58677a">${getCatName(doc.category)}</span>
+       <span class="col-size" style="width:70px;flex-shrink:0;font-size:12px;color:#58677a;text-align:right">${esc(doc.size)}</span>
+       <div class="doc-list-actions">
+          <button type="button" class="doc-action-btn open-btn"     title="Ver Detalhes">👁</button>
+          <button type="button" class="doc-action-btn download-btn" title="Descarregar">⬇</button>
+          <button type="button" class="doc-action-btn delete"        title="Eliminar">🗑</button>
+       </div>`;
+
+    item.querySelector(".open-btn").addEventListener("click",      e => { e.stopPropagation(); showDetails(doc); });
+    item.querySelector(".download-btn").addEventListener("click", e => { e.stopPropagation(); downloadDoc(doc); });
+    item.querySelector(".delete").addEventListener("click",        e => { e.stopPropagation(); deleteDoc(doc.id); openCategoryModal(doc.category); });
+    item.addEventListener("click", () => showDetails(doc));
+    return item;
+  }
+
+  /* ── Exibir Detalhes ── */
+  function showDetails(doc) {
+    _selectedDocForView = doc;
+    detAuthor.textContent = doc.author ? doc.author : "Desconhecido";
+    
+    const d = new Date(doc.date);
+    const dataFormatada = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    const horaFormatada = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    detDate.textContent = `${dataFormatada} às ${horaFormatada}`;
+
+    let desc = doc.description || "";
+    if (desc.length > 350) {
+      desc = desc.substring(0, 350) + "...";
+    }
+    detDescription.textContent = desc;
+    detailsModal.hidden = false;
+  }
+
+  /* ── Manipulação e Visualização de Ficheiros ── */
+  function openDoc(doc) {
+    const files = getFiles(); 
+    const deletedFiles = getDeletedFiles(); 
+    const data = files[doc.id] || deletedFiles[doc.id];
+    
+    if (!data) { alert("Ficheiro não encontrado."); return; }
+    _currentDoc = doc; 
+    viewerTitle.textContent = doc.title || doc.fileName; 
+    viewerBody.innerHTML = "";
+    
+    if (_objectUrl) { URL.revokeObjectURL(_objectUrl); _objectUrl = null; }
+    const mime = doc.mimeType || "";
+    
+    if (mime === "application/pdf") {
+      const blob = b64ToBlob(data, mime); 
+      _objectUrl = URL.createObjectURL(blob);
+      const iframe = document.createElement("iframe"); 
+      iframe.src = _objectUrl; 
+      viewerBody.appendChild(iframe);
+    } else if (mime.startsWith("image/")) {
+      const img = document.createElement("img"); 
+      img.src = data; 
+      img.alt = doc.title; 
+      viewerBody.appendChild(img);
+    } else if (mime === "text/plain" || mime === "text/csv") {
+      try {
+        const raw = atob(data.split(",")[1]); 
+        const text = decodeURIComponent(escape(raw));
+        const pre = document.createElement("pre"); 
+        pre.textContent = text; 
+        viewerBody.appendChild(pre);
+      } catch (err) { _showNoPreview(doc); }
+    } else { _showNoPreview(doc); }
+    viewerModal.hidden = false;
+  }
+
+  function _showNoPreview(doc) {
+    const div = document.createElement("div"); 
+    div.className = "dv-no-preview";
+    div.innerHTML = `<span>📄</span><strong>${esc(doc.fileName)}</strong><p>Sem pré-visualização disponível para este formato.</p><button type="button" class="dv-np-btn">⬇ Baixar</button>`;
+    div.querySelector(".dv-np-btn").addEventListener("click", () => downloadDoc(doc)); 
+    viewerBody.appendChild(div);
+  }
+
+  function closeViewer() { 
+    viewerModal.hidden = true; 
+    viewerBody.innerHTML = ""; 
+    if (_objectUrl) { URL.revokeObjectURL(_objectUrl); _objectUrl = null; } 
+    _currentDoc = null; 
+  }
+
+  function downloadDoc(doc) { 
+    const files = getFiles(); 
+    const deletedFiles = getDeletedFiles(); 
+    const data = files[doc.id] || deletedFiles[doc.id]; 
+    if (!data) return; 
+    const a = document.createElement("a"); 
+    a.href = data; 
+    a.download = doc.fileName; 
+    document.body.appendChild(a); 
+    a.click(); 
+    document.body.removeChild(a); 
+  }
+
+  function deleteDoc(id) { 
+    const docs = getDocs(); 
+    const files = getFiles(); 
+    const idx = docs.findIndex(d => d.id === id); 
+    if (idx === -1) return; 
+    const [doc] = docs.splice(idx, 1); 
+    doc.deletedAt = new Date().toISOString(); 
+    const deleted = getDeleted(); 
+    const deletedFiles = getDeletedFiles(); 
+    deleted.unshift(doc); 
+    if (files[id]) { deletedFiles[id] = files[id]; delete files[id]; } 
+    save(STORAGE_KEY, docs); 
+    save(FILES_KEY, files); 
+    save(DELETED_KEY, deleted); 
+    save(DELETED_FILES_KEY, deletedFiles); 
+    renderAll(); 
+  }
+
+  function restoreDoc(id) { 
+    const deleted = getDeleted(); 
+    const deletedFiles = getDeletedFiles(); 
+    const idx = deleted.findIndex(d => d.id === id); 
+    if (idx === -1) return; 
+    const [doc] = deleted.splice(idx, 1); 
+    delete doc.deletedAt; 
+    const docs = getDocs(); 
+    const files = getFiles(); 
+    
+    docs.unshift(doc); 
+    if (deletedFiles[id]) { 
+      files[id] = deletedFiles[id]; 
+      delete deletedFiles[id]; 
+    } 
+    
+    save(STORAGE_KEY, docs); 
+    save(FILES_KEY, files); 
+    save(DELETED_KEY, deleted); 
+    save(DELETED_FILES_KEY, deletedFiles); 
+    renderAll(); 
+  }
+
+  /* ── Utilitários de Tempo e Expiração ── */
+  function getDaysLeft(deletedAtStr) {
+    if (!deletedAtStr) return EXPIRY_DAYS;
+    const deletedDate = new Date(deletedAtStr);
+    const now = new Date();
+    const diffTime = deletedDate.getTime() + (EXPIRY_DAYS * 24 * 60 * 60 * 1000) - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays < 0 ? 0 : diffDays;
+  }
+
+  function purgeExpiredDeleted() {
+    const deleted = getDeleted();
+    const deletedFiles = getDeletedFiles();
+    const now = new Date();
+
+    const validDeleted = [];
+    const validDeletedFiles = {};
+
+    deleted.forEach(doc => {
+      const deletedDate = new Date(doc.deletedAt);
+      const expiryTime = deletedDate.getTime() + (EXPIRY_DAYS * 24 * 60 * 60 * 1000);
+      
+      if (now.getTime() < expiryTime) {
+        validDeleted.push(doc);
+        if (deletedFiles[doc.id]) {
+          validDeletedFiles[doc.id] = deletedFiles[doc.id];
+        }
+      }
+    });
+
+    save(DELETED_KEY, validDeleted);
+    save(DELETED_FILES_KEY, validDeletedFiles);
+  }
+
+  function checkMonthReset() {
+    const now = new Date();
+    const currentMonthYear = `${now.getFullYear()}-${now.getMonth() + 1}`;
+    localStorage.setItem(MONTH_KEY, currentMonthYear);
+  }
+
+  /* ── Conversor Base64 para Blob ── */
+  function b64ToBlob(b64Data, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(b64Data.split(',')[1] || b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
+  }
+
+  /* ── Inicialização ── */
+  function init() {
+    purgeExpiredDeleted();
+    checkMonthReset();
+    renderAll();
+    console.log("Sistema de Guias e Ferramentas operacional.");
+  }
+
+  init();
+})();
+</script>
+
+</body>
+</html>
