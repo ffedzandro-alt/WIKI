@@ -1,0 +1,131 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.tb-wrap{width:100%;background:#f0f4f8;min-height:600px;}
+.tb-hero{background:linear-gradient(135deg,#e8f0fb 0%,#ddeeff 100%);padding:36px 32px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.tb-hero-text h1{font-size:26px;font-weight:700;color:#1a1a2e;margin-bottom:8px;line-height:1.2;}
+.tb-hero-text p{font-size:13px;color:#555;max-width:340px;line-height:1.5;}
+.tb-hero-img{width:220px;flex-shrink:0;opacity:0.85;}
+.tb-section{padding:28px 32px;}
+.tb-cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.tb-card{background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:20px 18px 16px;display:flex;flex-direction:column;gap:8px;}
+.tb-card-icon{width:48px;height:48px;background:#e8f0fb;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+.tb-card-icon i{font-size:24px;color:#1a3c6e;}
+.tb-card h3{font-size:14px;font-weight:700;color:#1a1a2e;}
+.tb-card p{font-size:12px;color:#666;line-height:1.5;}
+.tb-card-footer{margin-top:auto;padding-top:10px;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:flex-end;}
+.tb-card-footer a{color:#1a3c6e;font-size:18px;text-decoration:none;}
+.tb-footer{background:#1a2840;padding:0;position:relative;overflow:hidden;}
+.tb-footer-wave{position:absolute;bottom:60px;left:0;right:0;height:80px;opacity:0.15;}
+.tb-footer-content{display:grid;grid-template-columns:260px 1fr 1fr;gap:40px;padding:36px 36px 24px;position:relative;z-index:1;}
+.tb-footer-brand{display:flex;flex-direction:column;gap:10px;}
+.tb-footer-brand .name{font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px;}
+.tb-footer-brand .name .icon-box{width:32px;height:32px;background:#ffffff20;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.tb-footer-brand .icon-box i{font-size:16px;color:#fff;}
+.tb-footer-brand p{font-size:13px;color:#8da5c0;line-height:1.5;}
+.tb-footer-brand .icons{display:flex;gap:12px;margin-top:4px;}
+.tb-footer-brand .icons i{font-size:18px;color:#8da5c0;}
+.tb-footer h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;}
+.tb-footer ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.tb-footer ul li a{font-size:13px;color:#8da5c0;text-decoration:none;}
+.tb-footer ul li a:hover{color:#fff;}
+.tb-footer-contact p{font-size:13px;color:#8da5c0;margin-bottom:14px;line-height:1.5;}
+.email-btn{background:#ffffff15;border:1px solid #ffffff25;color:#c8d8ea;border-radius:6px;padding:9px 14px;font-size:12px;display:flex;align-items:center;gap:8px;width:fit-content;}
+.email-btn i{font-size:14px;}
+.tb-footer-divider{border:none;border-top:1px solid #ffffff15;margin:0 36px;position:relative;z-index:1;}
+.tb-copyright{color:#5a7a99;text-align:center;font-size:12px;padding:16px;position:relative;z-index:1;}
+</style>
+
+<div class="tb-wrap">
+  <div class="tb-hero">
+    <div class="tb-hero-text">
+      <h1>Documentação técnica da empresa</h1>
+      <p>Encontre documentações, processos, guias e informações importantes para o seu dia a dia de forma rápida e fácil.</p>
+    </div>
+    <div class="tb-hero-img">
+      <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="130" height="90" rx="8" fill="#d8e8f8" stroke="#b0ccee" stroke-width="1.5"/>
+        <rect x="20" y="20" width="130" height="14" rx="8" fill="#b0ccee"/>
+        <rect x="30" y="42" width="80" height="6" rx="3" fill="#a0bcdc"/>
+        <rect x="30" y="54" width="60" height="5" rx="2.5" fill="#c0d8ee"/>
+        <rect x="30" y="64" width="70" height="5" rx="2.5" fill="#c0d8ee"/>
+        <rect x="30" y="74" width="50" height="5" rx="2.5" fill="#c0d8ee"/>
+        <circle cx="160" cy="38" r="22" fill="#1a3c6e"/>
+        <text x="151" y="44" font-size="18" fill="#fff" font-family="sans-serif">🔍</text>
+        <rect x="120" y="78" width="40" height="32" rx="4" fill="#1a3c6e"/>
+        <rect x="126" y="84" width="28" height="4" rx="2" fill="#4a8ccc"/>
+        <rect x="126" y="92" width="20" height="4" rx="2" fill="#4a8ccc"/>
+        <circle cx="178" cy="108" r="14" fill="#e8f4e8" stroke="#6dbf6d" stroke-width="1.5"/>
+        <text x="171" y="114" font-size="14" fill="#2d8a2d">🌿</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="tb-section">
+    <div class="tb-cards-grid">
+      <div class="tb-card">
+        <div class="tb-card-icon"><i class="ti ti-settings" aria-hidden="true"></i></div>
+        <h3>Backend</h3>
+        <p>Documentações, padrões, boas práticas e referências para desenvolvimento backend.</p>
+        <div class="tb-card-footer"><a href="http://localhost/index.php/documentacao-tecnica-da-empresa/backend">→</a></div>
+      </div>
+      <div class="tb-card">
+        <div class="tb-card-icon"><i class="ti ti-server" aria-hidden="true"></i></div>
+        <h3>Infraestrutura</h3>
+        <p>Guias, manuais e procedimentos sobre servidores, ambientes, deploys e monitoramento.</p>
+        <div class="tb-card-footer"><a href="http://localhost/index.php/documentacao-tecnica-da-empresa/insfraestrutura">→</a></div>
+      </div>
+      <div class="tb-card">
+        <div class="tb-card-icon"><i class="ti ti-cloud" aria-hidden="true"></i></div>
+        <h3>APIs</h3>
+        <p>Documentação das APIs, integrações, endpoints, autenticação e exemplos de uso.</p>
+        <div class="tb-card-footer"><a href="http://localhost/index.php/documentacao-tecnica-da-empresa/apis">→</a></div>
+      </div>
+      <div class="tb-card">
+        <div class="tb-card-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <h3>RH</h3>
+        <p>Políticas, formulários, benefícios, processos seletivos e informações para colaboradores.</p>
+        <div class="tb-card-footer"><a href="http://localhost/index.php/documentacao-tecnica-da-empresa/rh">→</a></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="tb-footer">
+    <svg class="tb-footer-wave" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#ffffff"/>
+      <path d="M0,55 C200,90 400,20 600,55 C800,90 1000,20 1200,55 L1200,80 L0,80 Z" fill="#ffffff" opacity="0.5"/>
+    </svg>
+    <div class="tb-footer-content">
+      <div class="tb-footer-brand">
+        <div class="name">
+          <div class="icon-box"><i class="ti ti-book-2" aria-hidden="true"></i></div>
+          Wiki Interna
+        </div>
+        <p>A base de conhecimento da nossa empresa.</p>
+        <div class="icons">
+          <i class="ti ti-mail" aria-hidden="true"></i>
+          <i class="ti ti-circle-check" aria-hidden="true"></i>
+          <i class="ti ti-users" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#">Página principal</a></li>
+          <li><a href="#">Relatórios Diários</a></li>
+          <li><a href="#">Documentação Interna</a></li>
+          <li><a href="#">Guias e Ferramentas</a></li>
+          <li><a href="#">Documentação técnica da empresa</a></li>
+        </ul>
+      </div>
+      <div class="tb-footer-contact">
+        <h4>Contato</h4>
+        <p>Dúvidas ou sugestões? Entre em contato com a equipe de TI.</p>
+        <div class="email-btn"><i class="ti ti-mail" aria-hidden="true"></i> geral@techbase.pt</div>
+      </div>
+    </div>
+    <hr class="tb-footer-divider">
+    <div class="tb-copyright">© 2026 Wiki Interna · Todos os direitos reservados</div>
+  </footer>
+</div>
